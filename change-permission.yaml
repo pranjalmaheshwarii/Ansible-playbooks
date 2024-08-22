@@ -1,0 +1,11 @@
+---
+- name: Change file permissions on GCP VM
+  hosts: gcp_vms  # Your inventory group or specific VM
+  become: yes  # To execute commands with sudo if needed
+  tasks:
+    - name: Change file permissions
+      file:
+        path: flower.sh  # Replace with the path to your file
+        mode: '0644'  # Replace with desired file permissions (octal format)
+        state: file
+
