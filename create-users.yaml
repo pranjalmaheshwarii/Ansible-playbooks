@@ -1,0 +1,23 @@
+---
+- name: Create multiple users on GCP VM
+  hosts: gcp_vms
+  become: yes  # Use sudo to execute commands as root
+  tasks:
+    - name: Create users
+      user:
+        name: "{{ item }}"
+        state: present
+        create_home: yes
+        shell: /bin/bash
+      with_items:
+        - user1
+        - user2
+        - user3
+        - user4
+        - user5
+        - user6
+        - user7
+        - user8
+        - user9
+        - user10
+
