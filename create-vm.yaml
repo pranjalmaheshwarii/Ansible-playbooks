@@ -1,0 +1,6 @@
+---
+- name: Create VM instance
+  hosts: localhost
+  tasks: 
+  - name: Create VM instance instance1
+    command: gcloud compute instances create instance1 --zone=us-central1-a --machine-type=e2-micro  
