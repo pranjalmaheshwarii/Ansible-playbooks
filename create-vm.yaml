@@ -1,6 +1,13 @@
 ---
 - name: Create VM instance
   hosts: localhost
-  tasks: 
-  - name: Create VM instance instance1
-    command: gcloud compute instances create instance1 --zone=us-central1-a --machine-type=e2-micro  
+  tasks:
+    - name: Download service account key from GCS bucket
+      command: gsutil cp gs://bucket2607/wide-factor-429605-v2-3edd1d75bb7b.json /tmp/service-account-key.json
+
+    - name: Authenticate with service account
+      shell: |
+        gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
+        gcloud config set account my-instance-account@wide-factor-429605-v2.iam.gserviceaccount.com
+        gcloud config set project wide-factor-429605-v2
+        gcloud compute instances create instance2 --zone=us-central1-a --machine-type=e2-micro 
