@@ -1,0 +1,42 @@
+---
+- name: Install MongoDB on GCP VM
+  hosts: mongodb
+  become: yes
+  tasks:
+    - name: Update package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install necessary packages
+      apt:
+        name:
+          - gnupg
+          - curl
+        state: present
+
+    - name: Add MongoDB GPG key
+      apt_key:
+        url: https://www.mongodb.org/static/pgp/server-6.0.asc
+        state: present
+
+    - name: Add MongoDB APT repository
+      apt_repository:
+        repo: deb [arch=amd64] https://repo.mongodb.org/apt/debian bullseye/mongodb-org/6.0 main
+        state: present
+
+    - name: Update package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install MongoDB
+      apt:
+        name: mongodb-org
+        state: present
+
+    - name: Ensure MongoDB is started and enabled
+      systemd:
+        name: mongod
+        state: started
+        enabled: yes
